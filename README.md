@@ -377,8 +377,3 @@ Contributions are welcome! If you find any issues or have suggestions:
 For questions or support, please create an issue in the repository.
 
 ---
-**Happy Time Series Analysis! 📊📈**
-
----
-
-*Last Updated: November 2024*
