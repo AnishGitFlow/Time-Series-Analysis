@@ -53,8 +53,8 @@ scipy>=1.7.0
 ### Step 1: Clone or Download the Repository
 ```bash
 # If using git
-git clone https://github.com/AnishGitFlow/Time-Series-Analysis
-cd time-series-analysis-labs
+git clone https://github.com/AnishGitFlow/Time-Series-Analysis.git
+cd Time-Series-Analysis
 
 # Or download and extract the ZIP file
 ```
