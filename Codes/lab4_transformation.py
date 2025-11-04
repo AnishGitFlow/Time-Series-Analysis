@@ -40,14 +40,14 @@ plt.savefig('lab4_first_differencing.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # Test stationarity
-adf_Anish_diff1 = adfuller(first_diff, autolag='AIC')
-print(f"\nAdf_Anish Test after First Differencing:")
-print(f"Adf_Anish Statistic: {adf_Anish_diff1[0]:.6f}")
-print(f"p-value: {adf_Anish_diff1[1]:.6f}")
-print(f"Inference: {'STATIONARY' if adf_Anish_diff1[1] <= 0.05 else 'NON-STATIONARY'}")
+ADF_diff1 = adfuller(first_diff, autolag='AIC')
+print(f"\nADF Test after First Differencing:")
+print(f"ADF Statistic: {ADF_diff1[0]:.6f}")
+print(f"p-value: {ADF_diff1[1]:.6f}")
+print(f"Inference: {'STATIONARY' if ADF_diff1[1] <= 0.05 else 'NON-STATIONARY'}")
 
 print("\nQ1a. Comment:")
-if adf_Anish_diff1[1] <= 0.05:
+if ADF_diff1[1] <= 0.05:
     print("Stationarity is IMPROVED. The differenced series is stationary.")
     print("The trend has been removed, making the series fluctuate around zero.")
 else:
@@ -80,11 +80,11 @@ plt.tight_layout()
 plt.savefig('lab4_seasonal_differencing.png', dpi=300, bbox_inches='tight')
 plt.show()
 
-adf_Anish_seas = adfuller(seasonal_diff, autolag='AIC')
-print(f"Adf_Anish Test after Seasonal Differencing:")
-print(f"Adf_Anish Statistic: {adf_Anish_seas[0]:.6f}")
-print(f"p-value: {adf_Anish_seas[1]:.6f}")
-print(f"Inference: {'STATIONARY' if adf_Anish_seas[1] <= 0.05 else 'NON-STATIONARY'}")
+ADF_seas = adfuller(seasonal_diff, autolag='AIC')
+print(f"ADF Test after Seasonal Differencing:")
+print(f"ADF Statistic: {ADF_seas[0]:.6f}")
+print(f"p-value: {ADF_seas[1]:.6f}")
+print(f"Inference: {'STATIONARY' if ADF_seas[1] <= 0.05 else 'NON-STATIONARY'}")
 
 # Q3: Log and Box-Cox Transformation
 print("\n" + "="*60)
@@ -147,20 +147,20 @@ plt.show()
 log_diff = log_transform.diff().dropna()
 boxcox_diff = pd.Series(boxcox_transform, index=df_Anish.index).diff().dropna()
 
-adf_Anish_log = adfuller(log_diff, autolag='AIC')
-adf_Anish_boxcox = adfuller(boxcox_diff, autolag='AIC')
+ADF_log = adfuller(log_diff, autolag='AIC')
+ADF_boxcox = adfuller(boxcox_diff, autolag='AIC')
 
 print("\nQ3b. Effectiveness Comparison:")
 print("-" * 60)
 print(f"Log Transform + Differencing:")
-print(f"  Adf_Anish p-value: {adf_Anish_log[1]:.6f}")
+print(f"  ADF p-value: {ADF_log[1]:.6f}")
 print(f"  Variance: {log_diff.var():.6f}")
 
 print(f"\nBox-Cox Transform + Differencing:")
-print(f"  Adf_Anish p-value: {adf_Anish_boxcox[1]:.6f}")
+print(f"  ADF p-value: {ADF_boxcox[1]:.6f}")
 print(f"  Variance: {boxcox_diff.var():.6f}")
 
-if adf_Anish_boxcox[1] < adf_Anish_log[1]:
+if ADF_boxcox[1] < ADF_log[1]:
     print("\nMost Effective: BOX-COX TRANSFORMATION")
     print("Reason: Lower p-value indicates stronger stationarity.")
     print("        Box-Cox optimally normalizes variance.")
@@ -174,7 +174,7 @@ print("Q4. Before vs After Transformation Comparison")
 print("="*60)
 
 # Run all tests
-adf_Anish_original = adfuller(original_series.dropna(), autolag='AIC')
+ADF_original = adfuller(original_series.dropna(), autolag='AIC')
 kpss_original = kpss(original_series.dropna(), regression='c', nlags='auto')
 
 kpss_diff1 = kpss(first_diff, regression='c', nlags='auto')
@@ -189,23 +189,23 @@ comparison = pd.DataFrame({
         'Log + Differencing',
         'Box-Cox + Differencing'
     ],
-    'Adf_Anish Statistic': [
-        adf_Anish_original[0],
-        adf_Anish_diff1[0],
-        adf_Anish_log[0],
-        adf_Anish_boxcox[0]
+    'ADF Statistic': [
+        ADF_original[0],
+        ADF_diff1[0],
+        ADF_log[0],
+        ADF_boxcox[0]
     ],
-    'Adf_Anish p-value': [
-        adf_Anish_original[1],
-        adf_Anish_diff1[1],
-        adf_Anish_log[1],
-        adf_Anish_boxcox[1]
+    'ADF p-value': [
+        ADF_original[1],
+        ADF_diff1[1],
+        ADF_log[1],
+        ADF_boxcox[1]
     ],
-    'Adf_Anish Result': [
-        'Stationary' if adf_Anish_original[1] <= 0.05 else 'Non-stationary',
-        'Stationary' if adf_Anish_diff1[1] <= 0.05 else 'Non-stationary',
-        'Stationary' if adf_Anish_log[1] <= 0.05 else 'Non-stationary',
-        'Stationary' if adf_Anish_boxcox[1] <= 0.05 else 'Non-stationary'
+    'ADF Result': [
+        'Stationary' if ADF_original[1] <= 0.05 else 'Non-stationary',
+        'Stationary' if ADF_diff1[1] <= 0.05 else 'Non-stationary',
+        'Stationary' if ADF_log[1] <= 0.05 else 'Non-stationary',
+        'Stationary' if ADF_boxcox[1] <= 0.05 else 'Non-stationary'
     ],
     'KPSS p-value': [
         kpss_original[1],
@@ -229,13 +229,13 @@ print("Conclusion:")
 print("-"*60)
 
 # Determine best transformation
-best_idx = comparison['Adf_Anish p-value'].idxmin()
+best_idx = comparison['ADF p-value'].idxmin()
 best_transform = comparison.loc[best_idx, 'Transformation']
 
 print(f"\nBest Transformation: {best_transform}")
 print("This transformation achieved stationarity with:")
-print(f"- Lowest Adf_Anish p-value: {comparison.loc[best_idx, 'Adf_Anish p-value']:.6f}")
-print(f"- Adf_Anish Result: {comparison.loc[best_idx, 'Adf_Anish Result']}")
+print(f"- Lowest ADF p-value: {comparison.loc[best_idx, 'ADF p-value']:.6f}")
+print(f"- ADF Result: {comparison.loc[best_idx, 'ADF Result']}")
 print(f"- KPSS Result: {comparison.loc[best_idx, 'KPSS Result']}")
 
 print("\n" + "="*60)

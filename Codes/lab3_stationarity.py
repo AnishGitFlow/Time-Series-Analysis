@@ -41,28 +41,28 @@ print("- Rolling mean shows an upward trend (not constant)")
 print("- Rolling standard deviation shows variations over time")
 print("- For a stationary series, both should remain relatively constant")
 
-# Q2: Augmented Dickey-Fuller (Adf_Anish) Test
+# Q2: Augmented Dickey-Fuller (ADF) Test
 print("\n" + "="*60)
-print("Q2. Augmented Dickey-Fuller (Adf_Anish) Test")
+print("Q2. Augmented Dickey-Fuller (ADF) Test")
 print("="*60)
 
-adf_Anish_result = adfuller(df_Anish['value'].dropna(), autolag='AIC')
+ADF_result = adfuller(df_Anish['value'].dropna(), autolag='AIC')
 
-print(f"Adf_Anish Statistic: {adf_Anish_result[0]:.6f}")
-print(f"p-value: {adf_Anish_result[1]:.6f}")
-print(f"Number of lags used: {adf_Anish_result[2]}")
-print(f"Number of observations: {adf_Anish_result[3]}")
+print(f"ADF Statistic: {ADF_result[0]:.6f}")
+print(f"p-value: {ADF_result[1]:.6f}")
+print(f"Number of lags used: {ADF_result[2]}")
+print(f"Number of observations: {ADF_result[3]}")
 print("\nCritical Values:")
-for key, value in adf_Anish_result[4].items():
+for key, value in ADF_result[4].items():
     print(f"  {key}: {value:.4f}")
 
 print("\nInference:")
-if adf_Anish_result[1] <= 0.05:
+if ADF_result[1] <= 0.05:
     print("p-value ≤ 0.05: REJECT null hypothesis")
-    print("The series is STATIONARY (according to Adf_Anish)")
+    print("The series is STATIONARY (according to ADF)")
 else:
     print("p-value > 0.05: FAIL TO REJECT null hypothesis")
-    print("The series is NON-STATIONARY (according to Adf_Anish)")
+    print("The series is NON-STATIONARY (according to ADF)")
 
 # Q3: KPSS Test
 print("\n" + "="*60)
@@ -93,11 +93,11 @@ print("="*60)
 
 # Create summary table
 summary = pd.DataFrame({
-    'Test': ['Adf_Anish', 'KPSS'],
+    'Test': ['ADF', 'KPSS'],
     'Null Hypothesis': ['Non-stationary', 'Stationary'],
-    'p-value': [adf_Anish_result[1], kpss_result[1]],
+    'p-value': [ADF_result[1], kpss_result[1]],
     'Result': [
-        'Stationary' if adf_Anish_result[1] <= 0.05 else 'Non-stationary',
+        'Stationary' if ADF_result[1] <= 0.05 else 'Non-stationary',
         'Stationary' if kpss_result[1] > 0.05 else 'Non-stationary'
     ]
 })
@@ -106,27 +106,27 @@ print("\nTest Summary:")
 print(summary.to_string(index=False))
 
 # Determine final conclusion
-adf_Anish_stationary = adf_Anish_result[1] <= 0.05
+ADF_stationary = ADF_result[1] <= 0.05
 kpss_stationary = kpss_result[1] > 0.05
 
 print("\nFinal Conclusion:")
-if adf_Anish_stationary and kpss_stationary:
+if ADF_stationary and kpss_stationary:
     print("STATIONARY: Both tests confirm stationarity")
-elif not adf_Anish_stationary and not kpss_stationary:
+elif not ADF_stationary and not kpss_stationary:
     print("NON-STATIONARY: Both tests confirm non-stationarity")
 else:
     print("INCONCLUSIVE: Tests give conflicting results (difference stationary)")
 
 print("\n" + "-"*60)
-print("Why Check Both Adf_Anish & KPSS?")
+print("Why Check Both ADF & KPSS?")
 print("-"*60)
 print("\n1. COMPLEMENTARY HYPOTHESES:")
-print("   - Adf_Anish: Null = Non-stationary (looks for unit root)")
+print("   - ADF: Null = Non-stationary (looks for unit root)")
 print("   - KPSS: Null = Stationary (looks for trend/level stationarity)")
 print("   Testing both provides stronger evidence.")
 
 print("\n2. DIFFERENT TYPES OF NON-STATIONARITY:")
-print("   - Adf_Anish detects: Unit root non-stationarity")
+print("   - ADF detects: Unit root non-stationarity")
 print("   - KPSS detects: Trend or level non-stationarity")
 print("   Using both helps identify the specific type.")
 
@@ -144,7 +144,7 @@ print("\n" + "-"*60)
 print("Decision Matrix:")
 print("-"*60)
 print("┌─────────────────┬──────────────┬──────────────────┐")
-print("│ Adf_Anish Result      │ KPSS Result  │ Conclusion       │")
+print("│ ADF Result      │ KPSS Result  │ Conclusion       │")
 print("├─────────────────┼──────────────┼──────────────────┤")
 print("│ Stationary      │ Stationary   │ Stationary       │")
 print("│ Non-stationary  │ Non-stat.    │ Non-stationary   │")
